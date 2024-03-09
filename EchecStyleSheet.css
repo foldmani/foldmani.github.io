@@ -1,0 +1,121 @@
+/* CSS Document */
+.cases {
+
+	width: 4vw;
+	height: 4vw;
+	position: relative;
+	text-align: center;
+	background-size: 3vw 3vw;
+	background-position: center;
+	background-repeat: no-repeat;
+    
+}
+.reine {
+
+	background-image: url("reine.png");
+    
+}
+.tour {
+
+	background-image: url("tour.png");
+    
+}
+.fou {
+
+	background-image: url("fou.png");
+    
+}
+.roiBlanc {
+
+	background-image: url("roiBlanc.png");
+    
+}
+.roiNoir {
+
+	background-image: url("roiNoir.png");
+    
+}
+.rouge {
+
+	border: 2px dashed red;
+	width: 4vw;
+	height: 4vw;
+    
+}
+table {
+
+	border: 2px solid black;
+	border-spacing: 0px;
+    
+}
+td {
+	border: 2px solid black;
+}
+#instructions {
+
+	width: 25vw;
+	font-size: 1.5em;
+	min-height: 20vw;
+	margin: 10px 0px 0px 0px;
+    
+}
+#strMessage {
+
+	width: 25vw;
+	font-size: 1.5em;
+	min-height: 20vw;
+    
+}
+.contenantInstructions {
+
+	padding: 10px;
+	color: white;
+	background-color: black;
+	border: 4px solid green;
+	border-radius: 15px 40px;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+    
+}
+
+#msg > div {
+
+	margin: 10px;
+    font-size:1em;
+    
+}
+.echecEtMat {
+
+	background-color: black;
+	border: 5px solid black;
+	color: white;
+	border-radius: 10px;
+	width: 70vw;
+	padding: 5px;
+	font-size: 4em;
+    
+}
+.echec {
+
+	background-color: red;
+	border: 5px solid black;
+	color: black;
+	border-radius: 10px;
+	width: 70vw;
+	padding: 10px;
+	font-size: 3.5em;
+    
+}
+.normalHeader {
+
+	border: 4px solid blue;
+	text-align: center;
+	font-size: 3em;
+	background-color: black;
+	color: white;
+	border-radius: 10px;
+	width: 70vw;
+	padding: 17px;
+    
+}

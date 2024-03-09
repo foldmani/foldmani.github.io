@@ -1,0 +1,230 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>       
+    <head>           
+        <meta http-equiv="content-type" content="text/html; charset=1256">           
+        <meta name="generator" content="PSPad editor, www.pspad.com">           
+        <title>D'ADN à protéine!        
+        </title>
+        <style>
+            
+            .a1{
+            
+                border: 2px solid blue; padding:10px; background-color:black; color:white; border-radius: 5px
+                
+            }
+            
+            .a1:hover{
+            
+                 background-color:lightblue;
+                 color:lightblue;
+                 border:2px solid red;
+                 
+                
+            }
+            
+        </style>       
+    </head>       
+    <body style="background-color:lightgreen">            
+        <div style="font-size:3em;background-color:black;color:white;border:2px solid red; border-radius:10px; margin:10px; padding:10px; width:90vw;">                 
+            <center>Transcripteur et Traducteur Automatique !             
+            </center>            
+        </div>            
+        <input id="ADN"type="text" value="tacatcaaaaaaaaaaaaaaaatatacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaatttaataaaaataaaaaaaaaataaaaaataaaaaaaaaattactttcccaaagggtacattcaacat" style="width:800px; margin: 20px;" onClick="efface2()" onDblClick="efface1()" onBlur="test()">            
+        <input type="button" value="go" onClick="transcrit()">
+        <div style="margin:20px;">
+         <a href="https://www.bioinformatics.org/sms2/random_dna.html" target="_blank" class="a1">Petit manque d'inspiration? Il faut cliquer ici!</a>
+        </div>                  
+        <div id="ARN">                     
+        </div>                
+        
+        <div id="proteins">                 
+        </div>
+<script>
+        
+        
+        
+        
+        function efface1(){document.getElementById("ADN").value=""}
+        function efface2(){if(document.getElementById("ADN").value=="Entrez une séquence d'ADN ici !"){document.getElementById("ADN").value=""}}
+        function transcrit(){
+            
+            var ADNi=document.getElementById("ADN").value
+            var proteins
+            var ARN
+            var lettre=/\w/g
+            var codon=/\w{3}/g
+            var space=/\s+/g
+            var minuscule= /\w/g
+            var AA=/\b\w{3}\b/g
+            var noncodant=/\[.*?\]/g
+            var noncodant2=/\s\(Met\w*]/g
+            var parenthese=/\(+/g
+            var parenthese2=/\)/g
+            var tiret0=/--/g
+            var maj=/[A-Z]/g
+            var cleanup=/!/g
+            var br=/<\/?br>/g
+            var reste=/[()]/g
+            var structure=/-Met/g
+            var arret=/Art-/g
+            var espacedebut=/<br>+/
+            var inutile=/\]/
+            var metseul=/<br>!!!\/Met--Arrêt\/!!!<br>/g
+            
+               ADNi=ADNi.replace(minuscule,majuscule)
+               ADNi="["+ADNi+"]"
+               ADNi=ADNi.replace(space,condense)
+               ADNi=ADNi.replace(lettre,verifie)
+               ARN=ADNi.replace(lettre,remplace)
+               ARN=ARN.replace(codon,espacer)
+               proteins=ARN.replace(AA,traduit)
+               proteins=proteins.replace(noncodant," ")
+               proteins=proteins.replace(space,condense)
+               proteins=proteins.replace(parenthese," (")
+               proteins=proteins.replace(parenthese2, ") ")
+               proteins=proteins.replace(tiret0,"")
+               proteins=proteins.replace(noncodant2,"")
+               proteins=proteins.replace(cleanup,"")
+               proteins=proteins.replace(br,"")
+               proteins=proteins.replace(reste,"")
+               proteins=proteins.replace(codon,espacer)
+               proteins=proteins.replace(structure,"<br>!!!/Met")
+               proteins=proteins.replace(arret,"Arrêt/!!!<br>")
+               proteins=proteins.replace(espacedebut,"")
+               proteins=proteins.replace(inutile,"<br>// Ceci pourrait être une protéine, mais il faudrait entrer le reste de la séquence pour pouvoir le savoir")
+               proteins=proteins.replace(metseul,"")
+               
+               document.getElementById("ARN").innerHTML="<div style=\"color:navy;font-size:2em; margin: 10px\">Voici la séquence d'ARNm complémentaire! </div><div style=\"margin:30px;font-size:1em;background-color:black;color:white;border:2px solid green;border-radius:10px; padding:10px;\">"+ARN+"</div>"
+               document.getElementById("proteins").innerHTML="<div style=\"color:navy;font-size:2em; margin:10px\">Voici la ou les protéine(s) correspondante(s)! </div><div style=\"margin:30px;font-size:1.5em;background-color:black;color:white;border:2px solid green;border-radius:10px; padding:10px;\">"+proteins+"</div>"
+                
+        }
+        function filtre(match){
+            
+            return 
+        }
+        function remplace(match){
+        switch(true){
+        case match=="T":return "A";break;
+        case match=="A":return "U";break;
+        case match=="C":return "G";break;
+        case match=="G":return "C";break;
+        default: return match;
+        }
+                    
+        }
+        function espacer(match){
+            var codon= "-"+match+"-"
+            return codon 
+        
+        }
+        function condense(match){
+            var rien=""
+            return rien
+        
+        }
+        function majuscule(match){
+             return match.toUpperCase()
+        }
+        function verifie(match){
+        var verif;
+             if(match=="A" || match=="G" || match=="T" || match=="C" ){
+               verif= match
+             }else{verif= "?"}
+             return verif 
+        }
+        
+        function traduit(match){
+        var aa
+        switch(true){
+                case match== "UUU" || match=="UUC":
+                aa= " Phe "
+                break;
+                
+                case match== "UUA" || match=="UUG" || match=="CUU" || match=="CUC" || match=="CUA" || match=="CUG" :
+                aa= " Leu "
+                break;
+                
+                case match== "AUU" || match=="AUC" || match=="AUA":
+                aa= " Ile "
+                break;
+                
+                case match== "AUG":
+                aa= "]<br>"+" !!!(Met "
+                break;
+                
+                case match== "GUU" || match=="GUC" || match=="GUA" ||match== "GUG" :
+                aa= " Val "
+                break;
+                
+                case match== "UCU" || match=="UCC" || match=="UCA" || match=="UCG" || match=="AGU" || match=="AGC" :
+                aa= " Ser "
+                break;
+                
+                case match== "CCU" || match=="CCC" || match=="CCA" || match=="CCG" :
+                aa= " Pro "
+                break;
+                
+                case match== "ACU" || match=="ACC" || match=="ACA" || match=="ACG" :
+                aa= " Thr "
+                break;
+                
+                case match== "GCU" || match=="GCC" || match=="GCA" || match=="GCG" :
+                aa= " Ala "
+                break;
+                
+                case match== "UAU" || match=="UAC":
+                aa= " Tyr "
+                break;
+                
+                case match== "UAA" || match=="UAG" || match=="UGA":
+                aa=  " Art)!!! "+"</br>["
+                break;
+                
+                case match== "CAU" || match=="CAC":
+                aa=  " His "
+                break;
+                
+                case match== "CAA" || match=="CAG":
+                aa=  " Gln "
+                break;
+                
+                case match== "AAU" || match=="AAC":
+                aa=  " Asn "
+                break;
+                
+                case match== "AAA" || match=="AAG":
+                aa=  " Lys "
+                break;
+                
+                case match== "GAU" || match=="GAC":
+                aa=  " Asp "
+                break;
+                
+                case match== "GAA" || match=="GAG":
+                aa=   " Glu "
+                break;
+                
+                case match== "UGU" || match=="UGC":
+                aa=   " Cys "
+                break;
+                
+                case match== "UGG":
+                aa=  " Trp "
+                break;
+                
+                case match== "CGU" || match=="CGA" || match=="CGG" || match=="CGC" || match=="AGA" || match=="AGG" :
+                aa=  " Arg "
+                break;
+                
+                case match== "GGU" || match=="GGC" || match=="GGA" || match=="GGG" :
+                aa= " Gly "
+                break;
+        
+        }
+        return aa
+        } 
+   
+   </script>                 
+    </body>
+</html>
